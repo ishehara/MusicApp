@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        myRecyclerView = findViewById(R.id.recyclerView)
+
 
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl("https://deezerdevs-deezer.p.rapidapi.com/")
@@ -35,12 +37,8 @@ class MainActivity : AppCompatActivity() {
         retrofitData.enqueue(object : Callback<MyData?> {
             override fun onResponse(call: Call<MyData?>, response: Response<MyData?>) {
 
-                val dataList = response.body()?.data!!
 
-//                val tv = findViewById<TextView>(R.id.helloText)
-//                tv.text = response.body()?.data.toString()
-
-                myAdapter = MyAdapter(this@MainActivity, dataList)
+                myAdapter = MyAdapter(this@MainActivity, response.body()?.data!!)
                 myRecyclerView.adapter = myAdapter
                 myRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
 

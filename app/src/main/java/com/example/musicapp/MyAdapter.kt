@@ -41,7 +41,6 @@ class MyAdapter(val context: Activity, val dataList:List<Data>): RecyclerView.Ad
         val currentData = dataList[position]
 
         val mediaPlayer = MediaPlayer.create(context,currentData.preview.toUri())
-
         holder.play.setOnClickListener(){
             mediaPlayer.start()
         }
