@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        myRecyclerView = findViewById(R.id.recyclerView)
+
 
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl("https://deezerdevs-deezer.p.rapidapi.com/")
@@ -34,8 +37,10 @@ class MainActivity : AppCompatActivity() {
         retrofitData.enqueue(object : Callback<MyData?> {
             override fun onResponse(call: Call<MyData?>, response: Response<MyData?>) {
 
-                val tv = findViewById<TextView>(R.id.helloText)
-                tv.text = response.body()?.data.toString()
+
+                myAdapter = MyAdapter(this@MainActivity, response.body()?.data!!)
+                myRecyclerView.adapter = myAdapter
+                myRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
 
                 Log.d("TAG: onResponse", "onResponse: "+response.body())
             }
